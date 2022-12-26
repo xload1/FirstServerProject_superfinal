@@ -6,7 +6,7 @@
   Time: 00:40
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <title>
     MULTIPLIER
@@ -37,30 +37,28 @@
 </form>
 
 <%
+    HttpSession httpSession = request.getSession();
     String login = request.getParameter("login");
     String password = request.getParameter("password");
     String reply ="";
     UserHelper userHelper = new UserHelper();
-    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp1");
-    String color = "green";
-    boolean localIsLoggedIn = false;
+    String color;
+    httpSession.setAttribute("isLoggedIn", false);
     if (login != null && !login.equals("")&&password != null && !password.equals(""))
     {
         if(userHelper.checkPresence(login)){
-            if (userHelper.checkPassword(new UserAcc(login, password))){
+            if (userHelper.checkPassword(login, password)){
                 reply = "Successfully logged in!";
-                UserHelper.login2 = login;
-                localIsLoggedIn = true;
-                UserHelper.isLoggedIn = localIsLoggedIn;
+                httpSession.setAttribute("login", login);
+                httpSession.setAttribute("isLoggedIn", true);
             }
             else reply = "Wrong password!";
         }
         else {
             userHelper.addUser(login, password);
             reply = "User successfully added";
-            localIsLoggedIn = true;
-            UserHelper.isLoggedIn = localIsLoggedIn;
-            UserHelper.login2 = login;
+            httpSession.setAttribute("isLoggedIn", true);
+            httpSession.setAttribute("login", login);
             userHelper.addLoginToUserText(login);
         }
     }
@@ -69,12 +67,17 @@
 %>
 <br>
 <h2  style="color: <%=color%>" >
-    <%= reply%>
+    <%=reply%>
 </h2>
 <button onclick="location.href='/jsp1'" style="color: #FF0099">GO BACK</button>
-<%--<%if(localIsLoggedIn){--%>
-<%--    Thread.sleep(1000);--%>
-<%--    requestDispatcher.forward(request, response);--%>
-<%--}%>--%>
+<%if(httpSession.getAttribute("isLoggedIn")!=null){
+    if((boolean)httpSession.getAttribute("isLoggedIn")) { %>
+<script>
+    function redirect() {
+        location.href = "/jsp1";
+    }
+    setTimeout(redirect, 1000);
+</script>
+<%}}%>
 </body>
 </html>

@@ -4,11 +4,11 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
     <welcome-file-list>
-        <welcome-file>FirstJSP.jsp</welcome-file>
+        <welcome-file>TextMainPage.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>jsp2</servlet-name>
-        <jsp-file>/SecondJSP.jsp</jsp-file>
+        <jsp-file>/LoginPage.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>jsp2</servlet-name>
@@ -16,7 +16,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>jsp1</servlet-name>
-        <jsp-file>/FirstJSP.jsp</jsp-file>
+        <jsp-file>/TextMainPage.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>jsp1</servlet-name>

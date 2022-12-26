@@ -6,7 +6,7 @@
   Time: 16:58
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>First JSP</title>
@@ -26,33 +26,35 @@
 <body>
 
 <%
-    Date date = new Date();
-    String output = "Current date and time: " + date;
-
+    String output = "Current date and time: " + new Date();
+    HttpSession httpSession = request.getSession();
+    if(httpSession.getAttribute("isLoggedIn")==null) httpSession.setAttribute("isLoggedIn", false);
 %>
 <h1>
 <%=output%>
 </h1>
-<h3> <%if(UserHelper.login2!=null){%>Logged in: <%=UserHelper.login2%><%}%></h3>
+<h3> <%if((boolean)httpSession.getAttribute("isLoggedIn")){%>Logged in: <%=httpSession.getAttribute("login")%><%}%></h3>
 <P>
 <h2>
     <button onclick="location.href='/jsp2'" style="color: #FF0099" type="button">
         <%
         UserHelper userHelper = new UserHelper();
         String loginOrLogout;
-        if(UserHelper.isLoggedIn) loginOrLogout = "LOGOUT";
+
+        if ((boolean) httpSession.getAttribute("isLoggedIn")) loginOrLogout = "LOGOUT";
         else loginOrLogout = "LOGIN";
         %>
             <%=loginOrLogout%>
     </button>
-    <% if(UserHelper.isLoggedIn){ %>
+    <%if((boolean)httpSession.getAttribute("isLoggedIn")){ %>
     <br>
-    <%if(request.getParameter("textInput")!=null)userHelper.updateText(request.getParameter("textInput"));%>
+    <%if(request.getParameter("textInput")!=null)userHelper.updateText(request.getParameter("textInput"),
+            (String) httpSession.getAttribute("login"));%>
     <form  method="post">
         <label for="textInput">Enter some text:</label><br>
         <textarea id = "textInput" name="textInput"
                   style="background-color: black; color: white;"
-                  rows="20" cols="50"><%= userHelper.getText()%></textarea><br>
+                  rows="20" cols="50"><%= userHelper.getText((String) httpSession.getAttribute("login"))%></textarea><br>
         <input type="submit" value="Save" style="color: #FF0099">
     </form>
     <% }%>

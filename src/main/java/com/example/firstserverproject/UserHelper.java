@@ -2,6 +2,7 @@ package com.example.firstserverproject;
 
 import com.example.firstserverproject.entity.UserAcc;
 import com.example.firstserverproject.entity.UserText;
+import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Session;
@@ -10,8 +11,6 @@ import org.hibernate.Transaction;
 
 public class UserHelper
 {
-    public static  String login2;
-    public static boolean isLoggedIn = false;
     private final SessionFactory sessionFactory;
     public UserHelper(){sessionFactory=HibernateUtil.getSessionFactory();}
     public boolean checkPresence(String login){
@@ -22,10 +21,10 @@ public class UserHelper
         session.close();
         return isPresent;
     }
-    public boolean checkPassword(UserAcc user){
+    public boolean checkPassword(String login, String password){
         Session session = sessionFactory.openSession();
-        UserAcc checkUser = session.get(UserAcc.class, user.getLogin());
-        boolean isRightPassword = checkUser.getPassword().equals(user.getPassword());
+        UserAcc checkUser = session.get(UserAcc.class, login);
+        boolean isRightPassword = checkUser.getPassword().equals(password);
         session.close();
         return isRightPassword;
     }
@@ -45,19 +44,19 @@ public class UserHelper
         transaction.commit();
         session.close();
     }
-    public void updateText(String text){
+    public void updateText(String text, String login){
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
-        UserText currUserText = session.get(UserText.class, login2);
+        UserText currUserText = session.get(UserText.class, login);
         currUserText.setUsertext(text);
         session.merge(currUserText);
         transaction.commit();
         session.close();
     }
-    public String getText(){
+    public String getText(String login){
         Session session = sessionFactory.openSession();
-        String text = session.get(UserText.class, login2).getUsertext();
+        String text = session.get(UserText.class, login).getUsertext();
         session.close();
         return text;
     }
