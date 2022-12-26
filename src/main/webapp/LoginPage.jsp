@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <title>
-    MULTIPLIER
+    Login
 </title>
 <head>
     <meta charset="UTF-8">

@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <title>First JSP</title>
+    <title>Main</title>
     <style>
         h1{text-align: center;}
         h2{text-align: center;}
