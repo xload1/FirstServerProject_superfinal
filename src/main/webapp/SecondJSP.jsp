@@ -19,6 +19,11 @@
         body{text-align: center;}
         body{color: cyan;}
         body{background-color: #5A5A5A;}
+        button {
+            width: 120px;
+            height: 50px;
+            font-size: 20px;
+        }
     </style>
 </head>
 <body>
@@ -26,7 +31,9 @@
 <form method="post">
     Login: <input type="text" name="login">
     Password: <input type="password" name="password">
-    <input type="submit" value="Log In">
+    <br>
+    <br>
+    <input type="submit" value="Log In" style="color: #FF0099">
 </form>
 
 <%
@@ -34,22 +41,40 @@
     String password = request.getParameter("password");
     String reply ="";
     UserHelper userHelper = new UserHelper();
+    RequestDispatcher requestDispatcher = request.getRequestDispatcher("/jsp1");
+    String color = "green";
+    boolean localIsLoggedIn = false;
     if (login != null && !login.equals("")&&password != null && !password.equals(""))
     {
         if(userHelper.checkPresence(login)){
             if (userHelper.checkPassword(new UserAcc(login, password))){
                 reply = "Successfully logged in!";
+                UserHelper.login2 = login;
+                localIsLoggedIn = true;
+                UserHelper.isLoggedIn = localIsLoggedIn;
             }
             else reply = "Wrong password!";
         }
         else {
             userHelper.addUser(login, password);
             reply = "User successfully added";
+            localIsLoggedIn = true;
+            UserHelper.isLoggedIn = localIsLoggedIn;
+            UserHelper.login2 = login;
+            userHelper.addLoginToUserText(login);
         }
     }
+     if(reply.equals("Wrong password!")) color = "red";
+     else color = "lightgreen";
 %>
-<p>
+<br>
+<h2  style="color: <%=color%>" >
     <%= reply%>
-</p>
+</h2>
+<button onclick="location.href='/jsp1'" style="color: #FF0099">GO BACK</button>
+<%--<%if(localIsLoggedIn){--%>
+<%--    Thread.sleep(1000);--%>
+<%--    requestDispatcher.forward(request, response);--%>
+<%--}%>--%>
 </body>
 </html>

@@ -14,4 +14,12 @@
         <servlet-name>jsp2</servlet-name>
         <url-pattern>/jsp2</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>jsp1</servlet-name>
+        <jsp-file>/FirstJSP.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>jsp1</servlet-name>
+        <url-pattern>/jsp1</url-pattern>
+    </servlet-mapping>
 </web-app>

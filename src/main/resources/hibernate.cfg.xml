@@ -15,6 +15,7 @@
     <property name="hibernate.highlight_sql">true</property>
     
     <mapping class="com.example.firstserverproject.entity.UserAcc"/>
+    <mapping class="com.example.firstserverproject.entity.UserText"/>
 
 
   </session-factory>
