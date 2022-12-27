@@ -1,10 +1,6 @@
 package com.example.firstserverproject;
 
 import com.example.firstserverproject.entity.UserAcc;
-import com.example.firstserverproject.entity.UserText;
-import jakarta.servlet.http.HttpSession;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -32,15 +28,7 @@ public class UserHelper
         Session session = sessionFactory.openSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
-        session.persist(new UserAcc(login, password));
-        transaction.commit();
-        session.close();
-    }
-    public void addLoginToUserText(String login){
-        Session session = sessionFactory.openSession();
-        Transaction transaction = session.getTransaction();
-        transaction.begin();
-        session.persist(new UserText(login, "Your text!"));
+        session.persist(new UserAcc(login, password, "Your text!"));
         transaction.commit();
         session.close();
     }
@@ -48,7 +36,7 @@ public class UserHelper
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.getTransaction();
         transaction.begin();
-        UserText currUserText = session.get(UserText.class, login);
+        UserAcc currUserText = session.get(UserAcc.class, login);
         currUserText.setUsertext(text);
         session.merge(currUserText);
         transaction.commit();
@@ -56,7 +44,7 @@ public class UserHelper
     }
     public String getText(String login){
         Session session = sessionFactory.openSession();
-        String text = session.get(UserText.class, login).getUsertext();
+        String text = session.get(UserAcc.class, login).getUsertext();
         session.close();
         return text;
     }

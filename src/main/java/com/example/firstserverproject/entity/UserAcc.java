@@ -19,5 +19,6 @@ public class UserAcc implements Serializable
     @Id
     private String login;
     private String password;
+    private String usertext;
 
 }

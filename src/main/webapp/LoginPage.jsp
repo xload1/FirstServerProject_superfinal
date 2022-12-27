@@ -59,7 +59,6 @@
             reply = "User successfully added";
             httpSession.setAttribute("isLoggedIn", true);
             httpSession.setAttribute("login", login);
-            userHelper.addLoginToUserText(login);
         }
     }
      if(reply.equals("Wrong password!")) color = "red";
